@@ -6,7 +6,7 @@
     <title>Home page</title>
     <style>
         body {
-            display: flex;
+            display: flex-start;
             justify-content: center;
             height: 100vh;
             background-color: #f4f4f4;
@@ -14,7 +14,9 @@
         }
         .button-container {
             display: flex;
+            justify-content: center;
             gap: 70px;
+            margin-bottom: 100px;
         }
         .button {
             padding: 10px 20px;
@@ -40,14 +42,128 @@
         .button:hover {
             background-color: #555555;
         }
+
+        /* Для кнопки Add потом то что появляется */
+        .input-container {
+            padding-left: 300px;
+            margin-top: 35px;
+            display: flex;
+            flex-direction: column;
+        }
+        .input-item {
+            display: flex;
+            align-items: center; /* Выравниваем текст и поле по вертикали */
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        .input-container label {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .input-container input {
+            padding: 9px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 400px;
+            margin-bottom: 10px;
+        }
+        .input-container input::placeholder {
+            color: #aaa;
+        }
+        /* Кнопка submit */
+        .submit-button {
+            padding: 10px 20px;
+            background-color: #D9D9D9;
+            color: black;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 200px;
+            height: 50px;
+            font-size: 20px;
+            margin-top: 20px;
+            align-self: flex-center;
+        }
+
+        .submit-button:hover {
+            background-color: #555555;
+        }
+
+        /* Сообщение о успешной отправке */
+        .success-message {
+            display: none;  /* Убедись, что по умолчанию оно скрыто */
+            color: #4CAF50; /* green */
+            padding: 10px;
+            margin-top: 2px;
+            font-size: 18px;
+            width: 300px;
+            text-align: center-flex;
+            padding-left: 300px;
+        }
     </style>
 </head>
 <body>
     <div class="button-container">
-        <button class="button">Add</button>
-        <button class="button">Search</button>
-        <button class="button">All orders</button>
-        <button class="button">Revenue</button>
+        <button class="button" id="add-btn">Add</button>
+        <button class="button" id="search-btn">Search</button>
+        <button class="button" id="orders-btn">All orders</button>
+        <button class="button" id="revenue-btn">Revenue</button>
     </div>
+
+    <!-- Для кнопки Add-->
+    <div id="input-container" class="input-container" style="display: none;">
+        <div class="input-item">
+            <label for="table_number">Номер стола</label>
+            <input type="text" id="table_number">
+        </div>
+        <div class="input-item">
+            <label for="items">Состав заказа</label>
+            <input type="text" id="items" placeholder="Введите заказ в формате: блюдо(цена),блюдо(цена)">
+        </div>
+        <button class="submit-button" id="submit-btn">Submit</button>
+    </div>
+    <!-- Сообщение о успешной отправке -->
+    <div id="success-message" class="success-message">
+        Successfully submitted!
+    </div>
+
+    <!-- Обработчик кнопок-->
+    <script>
+        document.getElementById("add-btn").addEventListener("click", function() {
+            // Показываем новые поля
+            document.getElementById("input-container").style.display = "flex";
+        });
+
+        document.getElementById("search-btn").addEventListener("click", function() {
+            alert("Поиск элементов!");
+        });
+
+        document.getElementById("orders-btn").addEventListener("click", function() {
+            window.open("/page2/", "_blank");
+        });
+
+        document.getElementById("revenue-btn").addEventListener("click", function() {
+            alert("Показать выручку!");
+        });
+
+        // Обработчик для кнопки Submit
+        document.getElementById("submit-btn").addEventListener("click", function() {
+            // Отображаем сообщение об успешной отправке
+            document.getElementById("success-message").style.display = "block";
+
+            // Очищаем все поля ввода
+            document.getElementById("table_number").value = "";
+            document.getElementById("items").value = "";
+
+            // Скрываем сообщение спустя 3 секунды
+            setTimeout(function() {
+                document.getElementById("success-message").style.display = "none";
+            }, 3000);
+
+            // Код для отправки в бд
+        });
+
+    </script>
 </body>
 </html>
