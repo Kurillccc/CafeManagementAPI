@@ -45,7 +45,7 @@
 
         /* Для кнопки Add потом то что появляется */
         .input-container {
-            padding-left: 300px;
+            padding-left: 200px;
             margin-top: 35px;
             display: flex;
             flex-direction: column;
@@ -92,15 +92,79 @@
 
         /* Сообщение о успешной отправке */
         .success-message {
-            display: none;  /* Убедись, что по умолчанию оно скрыто */
+            display: none;
             color: #4CAF50; /* green */
             padding: 10px;
-            margin-top: 2px;
+            margin-top: 1px;
             font-size: 18px;
             width: 300px;
             text-align: center-flex;
-            padding-left: 300px;
+            padding-left: 200px;
         }
+
+        /* Контейнер для search */
+        .search-container {
+            padding-left: 200px;
+            display: none;
+            margin-top: 3px;
+            flex-direction: column;
+        }
+
+        .search-container input {
+            width: 1000px;
+            padding: 7px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 18px;
+            margin-bottom: 0;
+        }
+
+        .search-container button {
+            padding: 10px 20px;
+            background-color: #D9D9D9;
+            color: black;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 20px;
+        }
+
+        .search-container button:hover {
+            background-color: #555555;
+        }
+
+        /* Стиль для элементов поиска */
+        .search-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .status-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button-container-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .button-container-vertical button {
+            padding: 8px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .button-container-vertical button:hover {
+            background-color: #ddd;
+        }
+
     </style>
 </head>
 <body>
@@ -128,23 +192,36 @@
         Successfully submitted!
     </div>
 
+    <!-- Для кнопки Search-->
+    <div id="search-container" class="search-container">
+        <input type="text" id="search-input" placeholder="id | номер стола | статус">
+        <button class="button" id="search-submit-btn">Search</button>
+    </div>
+
     <!-- Обработчик кнопок-->
     <script>
         document.getElementById("add-btn").addEventListener("click", function() {
             // Показываем новые поля
             document.getElementById("input-container").style.display = "flex";
+            document.getElementById("search-container").style.display = "none";
+
         });
 
         document.getElementById("search-btn").addEventListener("click", function() {
-            alert("Поиск элементов!");
+            document.getElementById("input-container").style.display = "none";
+            document.getElementById("search-container").style.display = "flex";
+
         });
 
         document.getElementById("orders-btn").addEventListener("click", function() {
+            document.getElementById("input-container").style.display = "none";
+            document.getElementById("search-container").style.display = "none";
             window.open("/page2/", "_blank");
         });
 
         document.getElementById("revenue-btn").addEventListener("click", function() {
-            alert("Показать выручку!");
+            document.getElementById("input-container").style.display = "none";
+            document.getElementById("search-container").style.display = "none";
         });
 
         // Обработчик для кнопки Submit
