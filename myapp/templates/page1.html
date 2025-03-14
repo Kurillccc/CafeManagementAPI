@@ -134,7 +134,7 @@
             background-color: #555555;
         }
 
-        /* Стиль для элементов поиска */
+        /* Стиль для элементов поиска после search-submit */
         .search-fields {
             display: flex;
             flex-direction: column;
@@ -192,14 +192,57 @@
         Successfully submitted!
     </div>
 
-    <!-- Для кнопки Search-->
+    <!-- Для кнопки Search -->
     <div id="search-container" class="search-container">
         <input type="text" id="search-input" placeholder="id | номер стола | статус">
         <button class="button" id="search-submit-btn">Search</button>
     </div>
 
+    <!-- Для кнопки Search-submit -->
+    <div id="search-fields" class="search-fields" style="display: none;">
+        <div class="input-item">
+            <label for="search-id">ID</label>
+            <input type="text" id="search-id">
+        </div>
+        <div class="input-item">
+            <label for="search-table-number">Номер стола</label>
+            <input type="text" id="search-table-number">
+        </div>
+        <div class="input-item">
+            <label for="search-items">Состав заказа</label>
+            <input type="text" id="search-items">
+        </div>
+        <div class="input-item">
+            <label for="search-total-price">Общая сумма</label>
+            <input type="text" id="search-total-price">
+        </div>
+        <div class="input-item">
+            <label>Статус заказа</label>
+            <div class="status-container">
+                <label>
+                    <input type="radio" name="status" value="waiting"> В ожидании
+                </label>
+                <label>
+                    <input type="radio" name="status" value="ready"> Готово
+                </label>
+                <label>
+                    <input type="radio" name="status" value="paid"> Оплачено
+                </label>
+            </div>
+        </div>
+
+            <!-- Кнопки для редактирования и удаления -->
+            <div class="button-container-vertical">
+                <button>Edit</button>
+                <button>Delete</button>
+            </div>
+        </div>
+
+
+
     <!-- Обработчик кнопок-->
     <script>
+        document.getElementById("search-fields").style.display = "flex";
         document.getElementById("add-btn").addEventListener("click", function() {
             document.getElementById("search-container").style.display = "none";
             document.getElementById("input-container").style.display = "flex";
@@ -212,7 +255,6 @@
             document.getElementById("success-message").style.display = "none";
             document.getElementById("search-container").style.display = "flex";
             // Показываем новые поля
-
         });
 
         document.getElementById("orders-btn").addEventListener("click", function() {
@@ -244,6 +286,13 @@
             }, 3000);
 
             // Код для отправки в бд
+        });
+
+        // Обработчик для кнопки Submit-search
+        document.getElementById("search-submit-btn").addEventListener("click", function() {
+            document.getElementById("search-fields").style.display = "flex";
+
+            // Код для поиска в бд
         });
 
     </script>
