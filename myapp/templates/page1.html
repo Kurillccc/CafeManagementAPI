@@ -201,27 +201,32 @@
     <!-- Обработчик кнопок-->
     <script>
         document.getElementById("add-btn").addEventListener("click", function() {
-            // Показываем новые поля
-            document.getElementById("input-container").style.display = "flex";
             document.getElementById("search-container").style.display = "none";
+            document.getElementById("input-container").style.display = "flex";
+            // Показываем новые поля
 
         });
 
         document.getElementById("search-btn").addEventListener("click", function() {
             document.getElementById("input-container").style.display = "none";
+            document.getElementById("success-message").style.display = "none";
             document.getElementById("search-container").style.display = "flex";
+            // Показываем новые поля
 
         });
 
         document.getElementById("orders-btn").addEventListener("click", function() {
             document.getElementById("input-container").style.display = "none";
             document.getElementById("search-container").style.display = "none";
+            document.getElementById("success-message").style.display = "none";
             window.open("/page2/", "_blank");
         });
 
         document.getElementById("revenue-btn").addEventListener("click", function() {
             document.getElementById("input-container").style.display = "none";
             document.getElementById("search-container").style.display = "none";
+            document.getElementById("success-message").style.display = "none";
+            // Код для отображения
         });
 
         // Обработчик для кнопки Submit
