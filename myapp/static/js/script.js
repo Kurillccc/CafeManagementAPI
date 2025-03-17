@@ -24,13 +24,34 @@ document.getElementById("orders-btn").addEventListener("click", function() {
     window.open("/page2/", "_blank");
 });
 
-document.getElementById("revenue-btn").addEventListener("click", function() {
-    document.getElementById("input-container").style.display = "none";
-    document.getElementById("search-container").style.display = "none";
-    document.getElementById("search-fields").style.display = "none";
-    document.getElementById("success-message").style.display = "none";
-    document.getElementById("revenue-container").style.display = "flex";
-    // Код для отображения
+document.addEventListener("DOMContentLoaded", function () {
+    // Обработчик для кнопки revenue
+    document.getElementById("revenue-btn").addEventListener("click", function() {
+        document.getElementById("input-container").style.display = "none";
+        document.getElementById("search-container").style.display = "none";
+        document.getElementById("search-fields").style.display = "none";
+        document.getElementById("success-message").style.display = "none";
+        document.getElementById("revenue-container").style.display = "flex";
+
+        // Отправка запроса на сервер для получения статистики
+        fetch("http://127.0.0.1:8000/get_revenue/", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Получаем количество заказов и общую выручку
+            const orderCount = data.order_count;
+            const totalRevenue = data.total_revenue;
+
+            // Обновляем текст в элементах
+            document.getElementById("total-orders").textContent = orderCount;
+            document.getElementById("total-revenue").textContent = totalRevenue;
+        })
+        .catch(error => console.error("Ошибка:", error));
+    });
 });
 
 document.addEventListener("DOMContentLoaded", function () {

@@ -1,8 +1,12 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-from .models import Order
-from django.views.decorators.csrf import csrf_exempt
 import json
+
+from django.db.models import Sum
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+
+from .models import Order
+
 
 def home(request):
     return render(request, 'home.html')
@@ -39,3 +43,25 @@ def add_order(request):
             return JsonResponse({'message': 'Ошибка при обработке данных'}, status=400)
     else:
         return JsonResponse({'message': 'Неверный запрос'}, status=400)
+
+def search(reauest):
+    return 0
+
+def all_orders(reauest):
+    return 0
+
+def get_revenue(reauest):
+    try:
+        orders = Order.objects.all()
+
+        order_count = orders.count()
+
+        total_revenue = orders.aggregate(total_revenue=Sum('total_price'))['total_revenue'] or 0
+
+        return JsonResponse({
+            'order_count': order_count,
+            'total_revenue': total_revenue
+        })
+
+    except Exception as e:
+        return JsonResponse({'message': f'Ошибка: {str(e)}'}, status=500)
