@@ -5,6 +5,38 @@
     <title>All orders</title>
 </head>
 <body>
+    <!-- Таблица для отображения заказов -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Стол</th>
+                <th>Блюдо(цена)</th>
+                <th>Общая стоимость</th>
+                <th>Статус</th>
+                <th>Дата создания</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.table_number }}</td>
+                    <td>{{ order.items }}</td>
+                    <td>{{ order.total_price }}₽</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.created_at }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">Нет заказов</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
+    {% load static %}
+
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

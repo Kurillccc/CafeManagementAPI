@@ -11,11 +11,15 @@ from .models import Order
 def home(request):
     return render(request, 'home.html')
 
+
 def page1(request):
     return render(request, 'page1.html')
 
+
 def page2(request):
-    return render(request, 'page2.html')
+    orders = Order.objects.all()
+    return render(request, 'page2.html', {'orders': orders})
+
 
 # Добавление заказа
 @csrf_exempt  # Отключаем проверку CSRF для этого представления
@@ -44,13 +48,12 @@ def add_order(request):
     else:
         return JsonResponse({'message': 'Неверный запрос'}, status=400)
 
-def search(reauest):
+
+def search(request):
     return 0
 
-def all_orders(reauest):
-    return 0
 
-def get_revenue(reauest):
+def get_revenue(request):
     try:
         orders = Order.objects.all()
 
