@@ -254,70 +254,8 @@
         <p>Общая сумма выручки: <span id="total-revenue">0</span> ₽</p>
     </div>
 
-    <!-- Обработчик кнопок-->
-    <script>
-        document.getElementById("add-btn").addEventListener("click", function() {
-            document.getElementById("search-container").style.display = "none";
-            document.getElementById("search-fields").style.display = "none";
-            document.getElementById("revenue-container").style.display = "none";
-            document.getElementById("input-container").style.display = "flex";
-            // Показываем новые поля
+    {% load static %}
 
-        });
-
-        document.getElementById("search-btn").addEventListener("click", function() {
-            document.getElementById("input-container").style.display = "none";
-            document.getElementById("success-message").style.display = "none";
-            document.getElementById("revenue-container").style.display = "none";
-            document.getElementById("search-container").style.display = "flex";
-            // Показываем новые поля
-        });
-
-        document.getElementById("orders-btn").addEventListener("click", function() {
-            document.getElementById("input-container").style.display = "none";
-            document.getElementById("search-container").style.display = "none";
-            document.getElementById("success-message").style.display = "none";
-            document.getElementById("search-fields").style.display = "none";
-            document.getElementById("revenue-container").style.display = "none";
-
-
-            window.open("/page2/", "_blank");
-        });
-
-        document.getElementById("revenue-btn").addEventListener("click", function() {
-            document.getElementById("input-container").style.display = "none";
-            document.getElementById("search-container").style.display = "none";
-            document.getElementById("search-fields").style.display = "none";
-            document.getElementById("success-message").style.display = "none";
-            document.getElementById("revenue-container").style.display = "flex";
-
-            // Код для отображения
-        });
-
-        // Обработчик для кнопки Submit
-        document.getElementById("submit-btn").addEventListener("click", function() {
-            // Отображаем сообщение об успешной отправке
-            document.getElementById("success-message").style.display = "block";
-
-            // Очищаем все поля ввода
-            document.getElementById("table_number").value = "";
-            document.getElementById("items").value = "";
-
-            // Скрываем сообщение спустя 3 секунды
-            setTimeout(function() {
-                document.getElementById("success-message").style.display = "none";
-            }, 3000);
-
-            // Код для отправки в бд
-        });
-
-        // Обработчик для кнопки Submit-search
-        document.getElementById("search-submit-btn").addEventListener("click", function() {
-            document.getElementById("search-fields").style.display = "flex";
-
-            // Код для поиска в бд
-        });
-
-    </script>
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
