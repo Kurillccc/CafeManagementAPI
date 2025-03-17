@@ -149,15 +149,15 @@
         }
 
         .button-container-vertical {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
+            display: flex-center;
+            flex-direction: line;
+            gap: 3px;
         }
 
         .button-container-vertical button {
             padding: 8px;
             background-color: #f0f0f0;
-            border-radius: 5px;
+            border-radius: 7px;
             border: 1px solid #ccc;
             font-size: 16px;
             cursor: pointer;
@@ -167,6 +167,15 @@
             background-color: #ddd;
         }
 
+        /* Контейнер для revenue */
+        .revenue-container {
+            padding-left: 200px;
+            font-size: 16px;
+            display: none;
+            margin-top: 3px;
+            flex-direction: column;
+        }
+        }
     </style>
 </head>
 <body>
@@ -240,13 +249,17 @@
             </div>
         </div>
 
-
+    <div id="revenue-container" class="revenue-container">
+        <p>Общее число заказов: <span id="total-orders">0</span></p>
+        <p>Общая сумма выручки: <span id="total-revenue">0</span> ₽</p>
+    </div>
 
     <!-- Обработчик кнопок-->
     <script>
-        document.getElementById("search-fields").style.display = "flex";
         document.getElementById("add-btn").addEventListener("click", function() {
             document.getElementById("search-container").style.display = "none";
+            document.getElementById("search-fields").style.display = "none";
+            document.getElementById("revenue-container").style.display = "none";
             document.getElementById("input-container").style.display = "flex";
             // Показываем новые поля
 
@@ -255,6 +268,7 @@
         document.getElementById("search-btn").addEventListener("click", function() {
             document.getElementById("input-container").style.display = "none";
             document.getElementById("success-message").style.display = "none";
+            document.getElementById("revenue-container").style.display = "none";
             document.getElementById("search-container").style.display = "flex";
             // Показываем новые поля
         });
@@ -263,13 +277,20 @@
             document.getElementById("input-container").style.display = "none";
             document.getElementById("search-container").style.display = "none";
             document.getElementById("success-message").style.display = "none";
+            document.getElementById("search-fields").style.display = "none";
+            document.getElementById("revenue-container").style.display = "none";
+
+
             window.open("/page2/", "_blank");
         });
 
         document.getElementById("revenue-btn").addEventListener("click", function() {
             document.getElementById("input-container").style.display = "none";
             document.getElementById("search-container").style.display = "none";
+            document.getElementById("search-fields").style.display = "none";
             document.getElementById("success-message").style.display = "none";
+            document.getElementById("revenue-container").style.display = "flex";
+
             // Код для отображения
         });
 
