@@ -3,8 +3,8 @@ import json
 from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Order
 
@@ -59,7 +59,8 @@ def get_order(request):
             search_value = data.get("search_value")  # ID или номер стола
             if search_value.isdigit(): search_value = int(search_value)
             # Поиск по ID или номеру стола
-            order = Order.objects.filter(id=search_value).first() or Order.objects.filter(table_number=int(search_value)).first()
+            order = Order.objects.filter(id=search_value).first() or Order.objects.filter(
+                table_number=int(search_value)).first()
             if not order:
                 return JsonResponse({"error": "Заказ не найден"}, status=404)
 
