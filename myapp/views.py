@@ -49,8 +49,59 @@ def add_order(request):
         return JsonResponse({'message': 'Неверный запрос'}, status=400)
 
 
-def search(request):
-    return 0
+@csrf_exempt
+def get_order(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            search_value = data.get("search_value")  # ID или номер стола
+            # Поиск по ID или номеру стола
+            order = Order.objects.filter(id=search_value).first() or Order.objects.filter(table_number=search_value).first()
+            print(f"Найденный заказ: {order}")
+            if not order:
+                return JsonResponse({"error": "Заказ не найден"}, status=404)
+
+            return JsonResponse({
+                "id": order.id,
+                "table_number": order.table_number,
+                "items": order.items,
+                "total_price": order.total_price,
+                "status": order.status
+            })
+        except Exception as e:
+            return JsonResponse({"error": "Заказ не найден"}, status=500)
+
+
+@csrf_exempt
+def update_order(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        order_id = data.get("id")
+
+        try:
+            order = Order.objects.get(id=order_id)
+            order.table_number = data.get("table_number", order.table_number)
+            order.items = data.get("items", order.items)
+            order.total_price = data.get("total_price", order.total_price)
+            order.status = data.get("status", order.status)
+            order.save()
+            return JsonResponse({"message": "Заказ обновлен"})
+        except Order.DoesNotExist:
+            return JsonResponse({"error": "Заказ не найден"}, status=404)
+
+
+@csrf_exempt
+def delete_order(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        order_id = data.get("id")
+
+        try:
+            order = Order.objects.get(id=order_id)
+            order.delete()
+            return JsonResponse({"message": "Заказ удален"})
+        except Order.DoesNotExist:
+            return JsonResponse({"error": "Заказ не найден"}, status=404)
 
 
 def get_revenue(request):

@@ -11,16 +11,9 @@ document.getElementById("search-btn").addEventListener("click", function() {
     document.getElementById("success-message").style.display = "none";
     document.getElementById("revenue-container").style.display = "none";
     document.getElementById("search-container").style.display = "flex";
-    // Показываем новые поля
 });
 
 document.getElementById("orders-btn").addEventListener("click", function() {
-    document.getElementById("input-container").style.display = "none";
-    document.getElementById("search-container").style.display = "none";
-    document.getElementById("success-message").style.display = "none";
-    document.getElementById("search-fields").style.display = "none";
-    document.getElementById("revenue-container").style.display = "none";
-
     window.open("/page2/", "_blank");
 });
 
@@ -118,6 +111,86 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Обработчик для кнопки Submit-search
 document.getElementById("search-submit-btn").addEventListener("click", function() {
-    document.getElementById("search-fields").style.display = "flex";
-    // Код для поиска в бд
+    const searchValue = document.getElementById("search-input").value;
+
+    if (!searchValue) {
+        alert("Введите ID заказа или номер стола");
+        return;
+    }
+
+    fetch("http://127.0.0.1:8000/get_order/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            search_value: searchValue
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+        document.getElementById("search-fields").style.display = "flex";
+
+        document.getElementById("search-id").value = data.id;
+        document.getElementById("search-table-number").value = data.table_number;
+        document.getElementById("search-items").value = data.items;
+        document.getElementById("search-total-price").value = data.total_price;
+
+        document.querySelector(`input[name="status"][value="${data.status}"]`).checked = true;
+    })
+    .catch(error => console.error("Ошибка:", error));
+});
+
+// для кнопки edit в поиске заказа
+document.querySelector(".button-container-vertical button:first-child").addEventListener("click", function() {
+    const orderId = document.getElementById("search-id").value;
+    const tableNumber = document.getElementById("search-table-number").value;
+    const items = document.getElementById("search-items").value;
+    const totalPrice = document.getElementById("search-total-price").value;
+    const status = document.querySelector("input[name='status']:checked").value;
+
+    fetch("http://127.0.0.1:8000/update_order/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id: orderId,
+            table_number: tableNumber,
+            items: items,
+            total_price: totalPrice,
+            status: status
+        })
+    })
+    .then(response => response.json())
+    .then(data => alert(data.message))
+    .catch(error => console.error("Ошибка:", error));
+});
+
+// для удаления заказа в поиске
+document.querySelector(".button-container-vertical button:last-child").addEventListener("click", function() {
+    const orderId = document.getElementById("search-id").value;
+
+    if (!orderId) {
+        alert("Введите ID заказа");
+        return;
+    }
+
+    fetch("http://127.0.0.1:8000/delete_order/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: orderId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        document.getElementById("search-fields").style.display = "none"; // Скрываем форму после удаления
+    })
+    .catch(error => console.error("Ошибка:", error));
 });
