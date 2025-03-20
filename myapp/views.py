@@ -4,6 +4,7 @@ from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
 
 from .models import Order
 
@@ -49,6 +50,7 @@ def add_order(request):
         return JsonResponse({'message': 'Неверный запрос'}, status=400)
 
 
+# поиск заказа и изменение
 @csrf_exempt
 def get_order(request):
     if request.method == "POST":
@@ -58,9 +60,10 @@ def get_order(request):
             if search_value.isdigit(): search_value = int(search_value)
             # Поиск по ID или номеру стола
             order = Order.objects.filter(id=search_value).first() or Order.objects.filter(table_number=int(search_value)).first()
-            print(f"Найденный заказ: {order}")
             if not order:
                 return JsonResponse({"error": "Заказ не найден"}, status=404)
+
+            print(f"Найденный заказ: {order}")
 
             return JsonResponse({
                 "id": order.id,
@@ -105,17 +108,26 @@ def delete_order(request):
             return JsonResponse({"error": "Заказ не найден"}, status=404)
 
 
+# статистика за смену и за все время
 def get_revenue(request):
     try:
         orders = Order.objects.all()
 
+        # Общее количество заказов
         order_count = orders.count()
 
+        # Общая выручка за все время
         total_revenue = orders.aggregate(total_revenue=Sum('total_price'))['total_revenue'] or 0
+
+        # Выручка за сегодняшний день
+        today = timezone.localtime(timezone.now()).date()
+        orders_today = orders.filter(created_at__date=today)
+        total_revenue_today = orders_today.aggregate(total_revenue=Sum('total_price'))['total_revenue'] or 0
 
         return JsonResponse({
             'order_count': order_count,
-            'total_revenue': total_revenue
+            'total_revenue': total_revenue,
+            'total_revenue_today': total_revenue_today
         })
 
     except Exception as e:

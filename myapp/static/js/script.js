@@ -18,7 +18,6 @@ document.getElementById("orders-btn").addEventListener("click", function() {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Обработчик для кнопки revenue
     document.getElementById("revenue-btn").addEventListener("click", function() {
         document.getElementById("input-container").style.display = "none";
         document.getElementById("search-container").style.display = "none";
@@ -33,13 +32,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Content-Type": "application/json"
             }
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Ошибка при получении данных");
+            }
+            return response.json();
+        })
         .then(data => {
-            // Получаем количество заказов и общую выручку
-            const orderCount = data.order_count;
-            const totalRevenue = data.total_revenue;
+            // Проверяем, что сервер вернул все необходимые данные
+            const totalRevenueToday = data.total_revenue_today ?? "Нет данных";
+            const orderCount = data.order_count ?? "Нет данных";
+            const totalRevenue = data.total_revenue ?? "Нет данных";
 
             // Обновляем текст в элементах
+            document.getElementById("total-revenue-today").textContent = totalRevenueToday;
             document.getElementById("total-orders").textContent = orderCount;
             document.getElementById("total-revenue").textContent = totalRevenue;
         })
@@ -72,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return 0; // Если нет чисел в скобках, возвращаем 0
         };
 
-        const totalPrice = extractPrice(items); // Итоговая стоимость
+        const totalPrice = extractPrice(items);
 
         // Создаем уникальный ID
         const uniqueId = 'order_' + Date.now(); // Используем метку времени для уникальности
