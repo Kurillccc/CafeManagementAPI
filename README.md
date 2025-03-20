@@ -23,11 +23,11 @@
 Страница для расчета общей выручки за все заказы со статусом "оплачено".
 
 ## 🤖 Стек:
-· Python 3.8+
-· Django 4+
-· HTML/CSS
-· PostgreSQL
-· Django ORM для работы с базой данных
+• Python 3.8+
+• Django 4+
+• HTML/CSS
+• PostgreSQL
+• Django ORM для работы с базой данных
 
 ## 📜 Ссылки
 [Макет Figma](https://www.figma.com/board/338wTz5ye54iDY7JDi7mu0/CafeManagementAPI?node-id=0-1&p=f&t=4gDe6yiHD2EIXbuL-0)
