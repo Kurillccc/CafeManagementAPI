@@ -55,8 +55,9 @@ def get_order(request):
         try:
             data = json.loads(request.body)
             search_value = data.get("search_value")  # ID или номер стола
+            if search_value.isdigit(): search_value = int(search_value)
             # Поиск по ID или номеру стола
-            order = Order.objects.filter(id=search_value).first() or Order.objects.filter(table_number=search_value).first()
+            order = Order.objects.filter(id=search_value).first() or Order.objects.filter(table_number=int(search_value)).first()
             print(f"Найденный заказ: {order}")
             if not order:
                 return JsonResponse({"error": "Заказ не найден"}, status=404)

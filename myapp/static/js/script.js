@@ -130,6 +130,7 @@ document.getElementById("search-submit-btn").addEventListener("click", function(
     .then(response => response.json())
     .then(data => {
         if (data.error) {
+            document.getElementById("search-fields").style.display = "none";
             alert(data.error);
             return;
         }
